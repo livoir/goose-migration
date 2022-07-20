@@ -1,0 +1,42 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ci:
+    name: Continuous Integration
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: goose_migration_test
+        ports:
+          - 3306:3306
+        options: --name mysql
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
+
+      - name: Install Goose Migration
+        run: go install github.com/pressly/goose/v3/cmd/goose@latest
+
+      - name: Run Migration
+        run: make up database=goose_migration_test
+
+      - name: Run Unit Tests
+        run: make test
+

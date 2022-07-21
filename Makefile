@@ -1,5 +1,7 @@
-database := "goose_migration"
-connection := "root:root@tcp(localhost:3306)/$(database)?parseTime=true&multiStatements=true"
+database := goose_migration
+username := root
+password := root
+connection := "$(username):$(password)@tcp(localhost:3306)/$(database)?parseTime=true&multiStatements=true"
 dir := ./db/migrations
 goose := goose -dir $(dir) mysql $(connection)
 

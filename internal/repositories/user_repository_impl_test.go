@@ -23,7 +23,7 @@ func createRandomUser(t *testing.T) domain.User {
 	result, err := userRepository.Save(context.Background(), user)
 
 	require.NoError(t, err)
-	require.NotEmpty(t, result)
+	require.Empty(t, result)
 	require.NotZero(t, result.Id)
 
 	return domain.User{

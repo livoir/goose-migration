@@ -18,6 +18,7 @@ type User struct {
 	Name     sql.NullString
 	Username sql.NullString
 	Password sql.NullString
+	Gender   sql.NullString
 }
 
 type UsersRole struct {

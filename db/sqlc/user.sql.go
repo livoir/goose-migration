@@ -40,7 +40,7 @@ func (q *Queries) DeleteUser(ctx context.Context, id int32) error {
 }
 
 const getAllUsers = `-- name: GetAllUsers :many
-SELECT id, name, username, password FROM users
+SELECT id, name, username, password, gender FROM users
 `
 
 func (q *Queries) GetAllUsers(ctx context.Context) ([]User, error) {
@@ -57,6 +57,7 @@ func (q *Queries) GetAllUsers(ctx context.Context) ([]User, error) {
 			&i.Name,
 			&i.Username,
 			&i.Password,
+			&i.Gender,
 		); err != nil {
 			return nil, err
 		}
@@ -72,7 +73,7 @@ func (q *Queries) GetAllUsers(ctx context.Context) ([]User, error) {
 }
 
 const getUserById = `-- name: GetUserById :one
-SELECT id, name, username, password FROM users WHERE id = ?
+SELECT id, name, username, password, gender FROM users WHERE id = ?
 `
 
 func (q *Queries) GetUserById(ctx context.Context, id int32) (User, error) {
@@ -83,8 +84,36 @@ func (q *Queries) GetUserById(ctx context.Context, id int32) (User, error) {
 		&i.Name,
 		&i.Username,
 		&i.Password,
+		&i.Gender,
 	)
 	return i, err
+}
+
+const testSelectGender = `-- name: TestSelectGender :many
+SELECT gender FROM users
+`
+
+func (q *Queries) TestSelectGender(ctx context.Context) ([]sql.NullString, error) {
+	rows, err := q.db.QueryContext(ctx, testSelectGender)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []sql.NullString{}
+	for rows.Next() {
+		var gender sql.NullString
+		if err := rows.Scan(&gender); err != nil {
+			return nil, err
+		}
+		items = append(items, gender)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const updateUser = `-- name: UpdateUser :exec

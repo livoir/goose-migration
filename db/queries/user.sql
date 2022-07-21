@@ -15,5 +15,5 @@ WHERE id = ?;
 -- name: DeleteUser :exec
 DELETE from users WHERE id = ?;
 
-# -- name: TestSelectGender :many
-# SELECT gender FROM users;
+-- name: TestSelectGender :many
+SELECT gender FROM users;

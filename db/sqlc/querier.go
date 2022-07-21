@@ -14,6 +14,7 @@ type Querier interface {
 	DeleteUser(ctx context.Context, id int32) error
 	GetAllUsers(ctx context.Context) ([]User, error)
 	GetUserById(ctx context.Context, id int32) (User, error)
+	TestSelectGender(ctx context.Context) ([]sql.NullString, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) error
 }
 

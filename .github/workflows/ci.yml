@@ -39,14 +39,3 @@ jobs:
 
       - name: Run Unit Tests
         run: make test
-
-      - uses: sarisia/actions-status-discord@v1
-        if: always()
-        with:
-          webhook: "https://discord.com/api/webhooks/1006854848429424650/J8xZtOMxqRvR2FGqQ757pIsFEtZmvAkidURQ0YrOwIRdXEQn5B4koiq8lvY0K3varoHe"
-          title: "Test CI"
-          description: "Continuous Integration"
-          image: "https://cdn.discordapp.com/attachments/451389738805362700/1006860042907172894/aluwi.png"
-          color: 0x0000ff
-          username: Beaolay X Alluwi
-          avatar_url: "https://cdn.discordapp.com/attachments/451389738805362700/1006859817719181353/bolay.png"
